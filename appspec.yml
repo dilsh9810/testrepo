@@ -1,0 +1,30 @@
+version: 0.0
+os: linux
+files:
+  - source: /docker-compose.yaml
+    destination: /home/ec2-user/
+  - source: /nginx.conf
+    destination: /home/ec2-user/
+hooks:
+  AfterInstall:
+    - location: scripts/install.sh
+      timeout: 300
+      runas: ec2-user
+
+  ApplicationStop:
+    -location: scripts/stop.sh
+     timeout: 20
+     runas: ec2-user
+
+  ApplicationStart:
+    -location: scripts/start.sh
+     timeout: 20
+     runas: ec2-user
+
+  ValidateService:
+    - location: scripts/validate.sh
+      timeout: 120
+      runas: ec2-user
+
+
+
